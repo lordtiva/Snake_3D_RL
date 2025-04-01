@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snake 3D RL</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Contenedor Principal de la Aplicación -->
+    <div id="app-container">
+
+        <!-- Barra Lateral (Sidebar) -->
+        <div id="sidebar">
+            <h1>Snake 3D RL</h1>
+
+            <!-- Selección de Modo -->
+            <div id="mode-selector">
+                <h2>Modo:</h2>
+                <button id="mode-training-btn" title="Controlar y monitorizar el entrenamiento de la IA">Control Entrenamiento</button>
+                <button id="mode-solo-btn" title="Jugar al Snake manualmente">Jugar Solo</button>
+                <button id="mode-watch-btn" title="Ver jugar al agente de IA entrenado">Ver IA</button>
+            </div>
+            <hr>
+
+            <!-- Área para mostrar errores -->
+            <div id="error-display" class="hidden error-box"></div>
+
+            <!-- Controles/Info para el Modo Entrenamiento (en Sidebar) -->
+            <div id="training-ui" class="hidden">
+                <h2>Entrenamiento</h2>
+                <div id="training-status" class="status-box">Estado: Detenido</div>
+                <div id="training-progress" class="status-box">Progreso: N/A</div>
+                <fieldset>
+                    <legend>Parámetros</legend>
+                    <div>
+                        <label for="param-timesteps" title="Número total de pasos de interacción con el entorno.">Timesteps:</label>
+                        <input type="number" id="param-timesteps" value="2000000" step="100000">
+                    </div>
+                    <div>
+                        <label for="param-cpus" title="Número de entornos paralelos a ejecutar en la CPU.">CPUs:</label>
+                        <input type="number" id="param-cpus" value="4" min="1">
+                    </div>
+                    <div>
+                        <label for="param-lr" title="Tasa de aprendizaje del optimizador.">Learning Rate:</label>
+                        <input type="text" id="param-lr" value="0.0003">
+                    </div>
+                </fieldset>
+                <div class="button-group">
+                    <button id="start-training-btn" title="Iniciar un nuevo entrenamiento desde cero con los parámetros actuales.">Iniciar Nuevo</button>
+                    <button id="continue-training-btn" title="Continuar el último entrenamiento guardado.">Continuar</button>
+                    <button id="stop-training-btn" disabled title="Detener el entrenamiento en curso.">Detener</button>
+                </div>
+                 <!-- Logs ya no están aquí -->
+            </div>
+
+            <!-- Controles/Info para Modos de Juego (en Sidebar) -->
+            <div id="game-ui" class="hidden">
+                <h2 id="game-mode-title">Juego</h2>
+                <div id="score-board">Puntuación: <span id="score">0</span></div>
+                <div id="game-over-message" class="hidden game-over-box">¡GAME OVER!</div>
+                <button id="reset-game-btn" title="Reiniciar la partida actual (solo en modo 'Jugar Solo').">Reiniciar Juego</button>
+                <div id="instructions">Selecciona un modo de juego.</div>
+            </div>
+
+        </div> <!-- Fin de #sidebar -->
+
+         <!-- Área Principal -->
+         <div id="main-content">
+            <!-- Contenedor Canvas 3D -->
+            <div id="game-container" class="hidden"> <!-- Asegúrate que empiece oculto si training es el default -->
+                <canvas id="gameCanvas"></canvas>
+            </div>
+
+            <!-- Contenedor Gráficos -->
+            <div id="training-display-area"> <!-- Empieza visible si training es el default -->
+                 <div id="charts-container">
+                    <h3>Métricas Clave:</h3>
+
+                    <!-- !! ENVOLVER CADA CANVAS !! -->
+                    <div class="chart-wrapper">
+                        <canvas id="reward-chart"></canvas>
+                    </div>
+                    <div class="chart-wrapper">
+                        <canvas id="length-chart"></canvas>
+                    </div>
+                    <div class="chart-wrapper">
+                        <canvas id="value-loss-chart"></canvas>
+                    </div>
+                    <div class="chart-wrapper">
+                        <canvas id="explained-variance-chart"></canvas>
+                    </div>
+                    <!-- !! FIN ENVOLTORIOS !! -->
+
+                 </div>
+            </div>
+        </div> <!-- Fin #main-content -->
+
+    </div> <!-- Fin de #app-container -->
+
+    <!-- Cargar Chart.js globalmente ANTES de los módulos -->
+    <script src="./libs/chart.umd.min.js"></script>
+
+    <!-- Import maps (sin chart.js) -->
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "./libs/three.module.js",
+                "three/addons/": "./libs/"
+            }
+        }
+    </script>
+
+    <!-- Script principal (Tipo Módulo) -->
+    <script type="module" src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,341 @@
+/* frontend/css/style.css */
+
+/* --- Variables de Color y Base --- */
+:root {
+    --bg-dark: #222;
+    --bg-medium: #2a2a2a;
+    --bg-light: #333;
+    --border-color: #444;
+    --text-color: #eee;
+    --text-color-muted: #aaa;
+    --primary-color: #4CAF50; /* Verde */
+    --primary-color-hover: #45a049;
+    --error-color: #ff4d4d; /* Rojo para errores */
+    --disabled-color: #555;
+    --chart-blue: rgba(54, 162, 235, 1);
+    --chart-orange: rgba(255, 159, 64, 1);
+    --chart-green: rgba(75, 192, 192, 1);
+    --chart-purple: rgba(153, 102, 255, 1);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    display: flex;
+    height: 100vh;
+    background-color: var(--bg-dark);
+    color: var(--text-color);
+    overflow: hidden; /* Evitar scroll en el body */
+}
+
+#app-container {
+    display: flex;
+    width: 100%;
+    height: 100%;
+}
+
+/* --- Barra Lateral (Sidebar) --- */
+#sidebar {
+    width: 400px;
+    flex-shrink: 0;
+    padding: 20px;
+    border-right: 2px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Espacio entre secciones principales */
+    overflow-y: auto; /* Permitir scroll si el contenido excede */
+    background-color: var(--bg-medium);
+}
+
+#sidebar h1 {
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 10px;
+    color: var(--primary-color);
+    font-size: 1.8em;
+}
+
+#sidebar h2 {
+    margin-top: 15px;
+    margin-bottom: 8px;
+    border-bottom: 1px solid var(--disabled-color);
+    padding-bottom: 4px;
+    font-size: 1.3em;
+    color: var(--text-color);
+}
+
+#sidebar hr {
+    border: none;
+    border-top: 1px solid var(--border-color);
+    margin: 15px 0;
+}
+
+/* --- Selector de Modo --- */
+#mode-selector {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* --- Botones Generales --- */
+button {
+    display: block;
+    width: 100%;
+    padding: 10px 15px;
+    margin-bottom: 10px;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 1em;
+    transition: background-color 0.2s ease;
+    text-align: center;
+}
+
+button:hover:not(:disabled) {
+    background-color: var(--primary-color-hover);
+}
+
+button:disabled {
+    background-color: var(--disabled-color);
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+/* Grupo de botones (ej: Iniciar, Continuar, Detener) */
+.button-group {
+    display: flex;
+    gap: 10px;
+}
+.button-group button {
+    flex-grow: 1;
+    margin-bottom: 0;
+}
+
+
+/* --- UI de Entrenamiento (Sidebar) --- */
+#training-ui fieldset {
+    border: 1px solid var(--disabled-color);
+    border-radius: 4px;
+    padding: 15px;
+    margin-bottom: 15px;
+    background-color: var(--bg-light);
+}
+#training-ui legend {
+    color: #ccc;
+    padding: 0 8px;
+    font-weight: bold;
+}
+#training-ui fieldset div {
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+}
+#training-ui label {
+    display: inline-block;
+    width: 110px;
+    margin-right: 10px;
+    font-size: 0.95em;
+    color: var(--text-color-muted);
+    flex-shrink: 0;
+}
+#training-ui input[type="text"],
+#training-ui input[type="number"],
+#training-ui select {
+    padding: 6px 8px;
+    background-color: var(--bg-medium);
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
+    border-radius: 3px;
+    flex-grow: 1;
+    min-width: 80px;
+}
+#training-ui input:focus,
+#training-ui select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 3px var(--primary-color);
+}
+
+/* Cajas de Estado/Progreso */
+.status-box {
+    background-color: var(--bg-light);
+    padding: 8px 12px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    border-left: 4px solid var(--primary-color);
+    font-size: 0.95em;
+    word-wrap: break-word; /* Para mensajes largos */
+}
+#training-status.status-error { /* Clase para estado de error */
+     border-left-color: var(--error-color);
+}
+
+/* --- UI de Juego (Sidebar) --- */
+#game-ui #score-board {
+    font-size: 1.4em;
+    text-align: center;
+    margin-bottom: 10px;
+    font-weight: bold;
+    color: var(--primary-color);
+}
+#game-ui #game-over-message {
+    font-size: 1.5em;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.game-over-box { /* Estilo específico para Game Over */
+    color: var(--error-color);
+    background-color: rgba(255, 77, 77, 0.1);
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid var(--error-color);
+}
+#game-ui #instructions {
+    font-size: 0.9em;
+    color: var(--text-color-muted);
+    text-align: center;
+    margin-top: 15px;
+    padding: 10px;
+    background-color: var(--bg-light);
+    border-radius: 3px;
+}
+
+
+/* --- Área Principal --- */
+#main-content {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+    background-color: #1e1e1e;
+    position: relative;
+    overflow: hidden; /* Evitar que main-content tenga scroll */
+}
+
+/* --- Contenedor del Canvas 3D --- */
+#game-container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    max-width: calc(100vh - 30px);
+    max-height: calc(100vw - 320px - 30px);
+    aspect-ratio: 1 / 1;
+    background-color: #000;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+#game-container.hidden { display: none; }
+
+#gameCanvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border-radius: 5px;
+}
+
+/* --- Contenedor para Gráficos (Visible en modo Entrenamiento) --- */
+#training-display-area {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
+    background-color: var(--bg-medium);
+    border-radius: 5px;
+    overflow-y: auto; /* Scroll para toda el área si es necesario */
+}
+#training-display-area.hidden { display: none; }
+
+/* --- Contenedor de los Gráficos --- */
+#training-display-area #charts-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Espacio entre los wrappers de gráficos */
+    /* No necesita crecer, su tamaño será la suma de los hijos */
+}
+
+/* Título "Métricas Clave" */
+#training-display-area #charts-container h3 {
+     width: 100%;
+     margin-bottom: 5px;
+     padding-bottom: 8px;
+     font-size: 1.2em;
+     color: var(--text-color);
+     border-bottom: 1px solid var(--border-color);
+     flex-shrink: 0;
+}
+
+/* --- !! NUEVO: Estilo para el Wrapper de cada Gráfico !! --- */
+.chart-wrapper {
+    position: relative; /* Necesario para que Chart.js se posicione correctamente */
+    width: 100%; /* Ocupar ancho disponible */
+    height: 250px; /* Altura FIJA para el contenedor del gráfico (AJUSTA ESTE VALOR) */
+    background-color: var(--bg-light); /* Mover el fondo aquí */
+    border: 1px solid var(--border-color); /* Mover borde aquí */
+    border-radius: 3px; /* Mover borde aquí */
+    flex-shrink: 0; /* Evitar que el wrapper se encoja */
+}
+
+/* Estilo para cada canvas DENTRO del wrapper */
+#training-display-area #charts-container .chart-wrapper canvas {
+    display: block; /* Asegurar que sea bloque */
+    box-sizing: border-box;
+    /* Hacer que el canvas llene completamente su wrapper */
+    width: 100%;
+    height: 100%;
+    /* Quitar fondo, borde, radio y altura fija de aquí */
+    /* background-color: transparent; */ /* Opcional: hacer transparente */
+    /* border: none; */
+    /* border-radius: 0; */
+    /* min-height: auto; */
+}
+
+/* --- Caja de Errores (Sidebar) --- */
+.error-box {
+    background-color: rgba(255, 77, 77, 0.15);
+    border: 1px solid var(--error-color);
+    color: var(--error-color);
+    padding: 10px 15px;
+    margin-bottom: 15px;
+    border-radius: 4px;
+    font-size: 0.9em;
+}
+
+/* Clase Helper para ocultar elementos */
+.hidden {
+    display: none !important;
+}
+
+/* --- Scrollbars (Opcional: Estilo oscuro) --- */
+/* Para navegadores Webkit (Chrome, Safari, Edge) */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-medium);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb {
+  background-color: var(--disabled-color);
+  border-radius: 4px;
+  border: 2px solid var(--bg-medium);
+}
+::-webkit-scrollbar-thumb:hover {
+  background-color: #777;
+}
+/* Para Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--disabled-color) var(--bg-medium);
+}
